@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Overlay</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* 투명한 배경 */
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #chat-box {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .chat-message {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            font-size: 14px;
+            max-width: 90%;
+            word-break: break-word;
+        }
+
+        .chat-message.user {
+            align-self: flex-end;
+            background-color: rgba(0, 123, 255, 0.8); /* 사용자 메시지 */
+            color: #fff;
+        }
+
+        .chat-message.system {
+            align-self: flex-start;
+            background-color: rgba(240, 240, 240, 0.8); /* 시스템 메시지 */
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-box"></div>
+
+    <script>
+        // Example Chat Messages
+        const messages = [
+            { type: "system", text: "Welcome to the stream!" },
+            { type: "user", text: "Hello! This is a user message." },
+            { type: "system", text: "System notification here." },
+            { type: "user", text: "How's everyone doing?" }
+        ];
+
+        const chatBox = document.getElementById('chat-box');
+
+        function addMessage(type, text) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `chat-message ${type}`;
+            messageElement.textContent = text;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+        }
+
+        // Add initial messages
+        messages.forEach(msg => addMessage(msg.type, msg.text));
+
+        // Simulate receiving new messages
+        setInterval(() => {
+            const newMessage = {
+                type: "user",
+                text: "New message at " + new Date().toLocaleTimeString()
+            };
+            addMessage(newMessage.type, newMessage.text);
+        }, 5000);
+    </script>
+</body>
+</html>
